@@ -1444,15 +1444,15 @@ module flash_ctrl
    `define PHY u_eflash.gen_flash_cores[i]
    `define PHY_CORE `PHY.u_core
    for (genvar i=0; i<NumBanks; i++) begin : gen_phy_cnt_errs
-     `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(PhyRspFifo,
+     `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(PhyRspFifo,
                                                   `PHY.u_host_rsp_fifo,
                                                   alert_tx_o[1])
 
-     `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(PhyRdRspFifo,
+     `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(PhyRdRspFifo,
                                                  `PHY_CORE.u_rd.u_rsp_order_fifo,
                                                  alert_tx_o[1])
 
-     `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(PhyRdDataFifo,
+     `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(PhyRdDataFifo,
                                                  `PHY_CORE.u_rd.u_rd_storage,
                                                  alert_tx_o[1])
 
@@ -1464,27 +1464,27 @@ module flash_ctrl
    `endif
 
   // Alert assertions for redundant counters.
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(RdRspFifo,
+  `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(RdRspFifo,
                                                u_to_rd_fifo.u_rspfifo,
                                                alert_tx_o[1])
 
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(RdSramReqFifo,
+  `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(RdSramReqFifo,
                                                u_to_rd_fifo.u_sramreqfifo,
                                                alert_tx_o[1])
 
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(RdReqFifo,
+  `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(RdReqFifo,
                                                u_to_rd_fifo.u_reqfifo,
                                                alert_tx_o[1])
 
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(EflashRspFifo,
+  `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(EflashRspFifo,
                                               u_tl_adapter_eflash.u_rspfifo,
                                               alert_tx_o[1])
 
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(EflashSramReqFifo,
+  `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(EflashSramReqFifo,
                                               u_tl_adapter_eflash.u_sramreqfifo,
                                               alert_tx_o[1])
 
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(EflashReqFifo,
+  `OCAH_OT_ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT(EflashReqFifo,
                                               u_tl_adapter_eflash.u_reqfifo,
                                               alert_tx_o[1])
 
