@@ -4,7 +4,6 @@
 //
 // Implementation of the NIST SP800-90A CTR DRBG algorithm, no derivation function.
 
-`include "prim_assert.sv"
 
 module csrng_ctr_drbg import csrng_pkg::*; (
   input  logic               clk_i,
@@ -46,6 +45,8 @@ module csrng_ctr_drbg import csrng_pkg::*; (
   output logic               ctr_err_o,
   output logic               sm_err_o
 );
+
+  `include "prim_assert.sv"
 
   import csrng_reg_pkg::NumApps;
 
@@ -520,11 +521,11 @@ module csrng_ctr_drbg import csrng_pkg::*; (
   //--------------------------------------------
 
   // Currently not supported, but most probably never intended (would yield a very wide counter)
-  `ASSERT_INIT(CsrngCtrLenLessBlkLen, CtrLen < BlkLen)
+  `OCAH_OT_ASSERT_INIT(CsrngCtrLenLessBlkLen, CtrLen < BlkLen)
   // Make sure the FSM has a stable error state that cannot be escaped
-  `ASSERT(CsrngCtrDrbgSmErrorStStable_A, state_q == Error |=> $stable(state_q))
+  `OCAH_OT_ASSERT(CsrngCtrDrbgSmErrorStStable_A, state_q == Error |=> $stable(state_q))
   // Outside of any non-error state, the FSM error output must be asserted
-  `ASSERT(CsrngCtrDrbgSmErrorOutput_A, !(state_q inside
+  `OCAH_OT_ASSERT(CsrngCtrDrbgSmErrorOutput_A, !(state_q inside
           {Idle, CtrInc, ReqSend, RspWait, Hndshk, HndshkGen, HndshkLoad})
           |-> sm_err_o)
 
