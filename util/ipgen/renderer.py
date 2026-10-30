@@ -247,7 +247,8 @@ class IpBlockRenderer(IpTemplateRendererBase):
     - Process all Mako templates and write the results to the output directory.
       A template at <PATH>.tpl will write results to <PATH> in the output
       directory.
-    - Run reggen to generate the register interface.
+    - Run reggen to generate the register interface. A register file the
+      template already produced in rtl/ is kept, not overwritten.
     """
 
     def _refresh_directory(self, staging_dir: Path, output_dir: Path,
@@ -369,7 +370,13 @@ class IpBlockRenderer(IpTemplateRendererBase):
 
         # TODO: Pass on template parameters to reggen? Or enable the user
         # to set a different set of parameters in the renderer?
-        reggen.gen_rtl.gen_rtl(obj, str(rtl_path))
+        reggen_rtl_path = staging_dir / '.reggen_rtl'
+        reggen_rtl_path.mkdir()
+        reggen.gen_rtl.gen_rtl(obj, str(reggen_rtl_path))
+        for generated in reggen_rtl_path.iterdir():
+            if not (rtl_path / generated.name).exists():
+                shutil.move(str(generated), str(rtl_path))
+        shutil.rmtree(reggen_rtl_path)
 
         # Write IP configuration (to reproduce the generation process).
         # TODO: Should the ipconfig file be written to the instance name,
